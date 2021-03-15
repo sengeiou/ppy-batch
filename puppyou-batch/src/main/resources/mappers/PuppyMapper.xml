@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.puppyou.batch.mapper.PuppyMapper">
+    
+    <select id="getAllUsePuppy"  resultType="com.puppyou.batch.entity.Puppy">
+    	SELECT
+    		*
+   		FROM
+    		puppy
+    	WHERE
+    		delete_yn = 'N'
+    </select>
+    
+    <update id="updateAllUsePuppyAge">
+    	UPDATE puppy
+    	SET
+    		age = age+1
+    </update>
+    
+    
+</mapper>

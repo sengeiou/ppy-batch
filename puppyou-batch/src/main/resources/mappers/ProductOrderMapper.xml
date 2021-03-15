@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.puppyou.batch.mapper.ProductOrderMapper">
+    
+    <select id="getFinishList"  resultType="com.puppyou.batch.entity.ProductOrder">
+    	SELECT
+    		a.order_no as orderNo
+   		FROM
+    		product_order a
+		JOIN 
+			shipping b
+		ON b.order_no = a.order_no
+    	WHERE
+    		a.create_dt <![CDATA[ <= ]]>  DATE_SUB(NOW(), INTERVAL 8 DAY)
+		AND 
+			b.shipping_status = 'DELIVERY'
+    </select>
+    
+    <update id="updateComplateOrder">
+    	UPDATE shipping
+    	SET
+    		shipping_status = 'COMPLTED'
+    	WHERE 
+    		order_no = #{orderNo}
+    </update>
+    
+    
+</mapper>

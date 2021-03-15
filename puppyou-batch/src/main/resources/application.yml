@@ -1,0 +1,134 @@
+spring:
+    profiles: 
+        active: local
+    output:
+      ansi:
+        enabled: never
+        
+---
+spring:
+    profiles: local 
+
+    #Hikari
+    datasource:
+        hikari:
+           driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+           jdbc-url: jdbc:log4jdbc:mysql://stg-puppyou-app.cqyxmk2lesk3.ap-northeast-2.rds.amazonaws.com:13306/puppyou?serverTimezone=Asia/Seoul           username: admin
+           password: shs1q2w3e4r! 
+           maximum-pool-size: 10
+           data-source-properties: 
+            cachePrepStmts: true 
+            prepStmtCacheSize: 250 
+            prepStmtCacheSqlLimit: 2048 
+            useServerPrepStmts: true
+#           connection-test-query: SELECT 1
+server:
+    port: 3000
+    servlet:
+        context-path: /ppy
+        session:
+            timeout: 10m
+            cookie:
+                name: SESSION_PPY
+                
+#logging
+logging:
+  level:
+    root: info
+    '[org.springframework.web]': debug
+#    sql: error
+    jdbc: off
+    jdbc.sqltiming: info
+
+#resttemplate
+#rest:
+#    puppyou:
+
+#domain
+domain:
+  uri: http://localhost:8080
+  
+#admin Token
+admin:
+  token: 0f63ed073181c8f659ccc294a24fe8abd1620ccc77db308c88af64d69374bd3a  
+
+---
+spring:
+    profiles: stg 
+    #Hikari
+    datasource:
+        hikari:
+           driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+           jdbc-url: jdbc:log4jdbc:mysql://stg-puppyou-app.cqyxmk2lesk3.ap-northeast-2.rds.amazonaws.com:13306/puppyou?serverTimezone=Asia/Seoul
+           username: admin
+           password: shs1q2w3e4r! 
+           maximum-pool-size: 10
+           data-source-properties: 
+            cachePrepStmts: true 
+            prepStmtCacheSize: 250 
+            prepStmtCacheSqlLimit: 2048 
+            useServerPrepStmts: true
+server:
+    port: 3000
+    servlet:
+        context-path: /ppy
+        session:
+            timeout: 10m
+            cookie:
+                name: SESSION_PPY
+#logging
+logging:
+  level:
+    root: info
+    '[org.springframework.web]': debug
+#    sql: error
+    jdbc: off
+    jdbc.sqltiming: error
+
+#resttemplate
+rest:
+    puppyou:             
+#seyfert value
+domain:
+  uri: https://stg-puppyou.co.kr
+
+#admin Token
+admin:
+  token: 0f63ed073181c8f659ccc294a24fe8abd1620ccc77db308c88af64d69374bd3a 
+  
+#############################################################################################################
+---
+spring:
+    profiles: prod 
+    #Hikari
+    datasource:
+        hikari:
+           driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+           jdbc-url: jdbc:log4jdbc:mysql://stg-puppyou.cqyxmk2lesk3.ap-northeast-2.rds.amazonaws.com:13306/puppyou?serverTimezone=Asia/Seoul
+           username: admin
+           password: shs1q2w3e4r! 
+           maximum-pool-size: 10
+           connection-test-query: SELECT 1
+server:
+    port: 3000
+    servlet:
+        context-path: /ppy
+        session:
+            timeout: 10m
+            cookie:
+                name: SESSION_PPY
+#logging
+logging:
+  level:
+    root: info
+    '[org.springframework.web]': error
+    sql: error
+    jdbc: error
+    jdbc.sqlonly: error
+
+#resttemplate
+rest:
+    puppyou:    
+#domain
+#domain:
+#  uri: https://puppyou.co.kr

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.puppyou.batch.mapper.MatchingMapper">
+    
+    <select id="getPastMatchingTimeList"  resultType="com.puppyou.batch.entity.Matching">
+    	SELECT
+    		*
+   		FROM
+    		matching
+    	WHERE
+    		match_status = 'GOING'
+		AND
+			create_dt <![CDATA[ <= ]]> DATE_SUB(NOW(), INTERVAL 3 HOUR)
+    </select>
+    
+    <select id="getGoingMatchingList"  resultType="com.puppyou.batch.entity.Matching">
+    	SELECT
+    		*
+   		FROM
+    		matching
+    	WHERE
+    		match_status = 'GOING' OR match_status = 'MATCHING'
+    </select>
+    
+    <update id="updateEndMatching">
+    	UPDATE matching
+    	SET
+    		match_status = 'END',
+    		update_dt = NOW()
+    	WHERE 
+    		matching_no = #{matchingNo}
+    </update>
+    
+    <update id="updateMemNoMatching">
+    	UPDATE member_info
+    	SET
+    		match_status = 'NO_MATCH',
+    		update_dt = NOW()
+    	WHERE 
+    		mem_no = #{memNo}
+    </update>
+    
+    
+</mapper>
