@@ -9,10 +9,6 @@ import com.puppyou.batch.service.PuppyService;
 import lombok.extern.slf4j.Slf4j;
 
 
-/*
- * KYC 접수건 중 timeout 건에 대한 scheduler
- * */
-
 @Component
 @Slf4j
 public class NewYearJob {
