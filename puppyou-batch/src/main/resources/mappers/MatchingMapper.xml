@@ -20,7 +20,7 @@
    		FROM
     		matching
     	WHERE
-    		match_status = 'GOING' OR match_status = 'MATCHING'
+    		match_status = 'MATCHING'
     </select>
     
     <update id="updateEndMatching">

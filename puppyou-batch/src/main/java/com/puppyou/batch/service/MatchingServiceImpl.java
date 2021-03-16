@@ -48,7 +48,7 @@ public class MatchingServiceImpl implements MatchingService {
 	@Override
 	@Transactional
 	public void resetMatchingJob() {
-		//오전 5시 모든 매칭 검색
+		//오전 5시 모든 매칭중인 건 검색 going 은 제외. 
 		List<Matching> list = matchingMapper.getGoingMatchingList();
 		
 		if(!list.isEmpty()) {
