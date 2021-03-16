@@ -20,7 +20,7 @@ public class NewYearJob {
 	@Autowired
 	PuppyService puppyService;
 
-	@Scheduled(cron="0 13 15 15 3 *")
+	@Scheduled(cron="0 0 2 1 1 *")
     public void plusPuppyAgeJob() {
 		log.info("new year update puppy age");
 		puppyService.puppyPlusAge();
