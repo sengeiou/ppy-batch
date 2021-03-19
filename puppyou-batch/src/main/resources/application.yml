@@ -68,14 +68,6 @@ spring:
             prepStmtCacheSize: 250 
             prepStmtCacheSqlLimit: 2048 
             useServerPrepStmts: true
-server:
-    port: 3000
-    servlet:
-        context-path: /ppy
-        session:
-            timeout: 10m
-            cookie:
-                name: SESSION_PPY
 #logging
 logging:
   level:
@@ -109,14 +101,6 @@ spring:
            password: shs1q2w3e4r! 
            maximum-pool-size: 10
            connection-test-query: SELECT 1
-server:
-    port: 3000
-    servlet:
-        context-path: /ppy
-        session:
-            timeout: 10m
-            cookie:
-                name: SESSION_PPY
 #logging
 logging:
   level:
