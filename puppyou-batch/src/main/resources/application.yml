@@ -51,6 +51,10 @@ domain:
 #admin Token
 admin:
   token: 0f63ed073181c8f659ccc294a24fe8abd1620ccc77db308c88af64d69374bd3a  
+  
+#push url
+PUSH:
+  URL: http://localhost:8888
 
 ---
 spring:
@@ -88,6 +92,11 @@ domain:
 admin:
   token: 0f63ed073181c8f659ccc294a24fe8abd1620ccc77db308c88af64d69374bd3a 
   
+  
+#push url
+PUSH:
+  URL: http://internal-STG-PUPPYOU-PUSH-ALB-208249258.ap-northeast-2.elb.amazonaws.com
+  
 #############################################################################################################
 ---
 spring:
@@ -116,3 +125,7 @@ rest:
 #domain
 #domain:
 #  uri: https://puppyou.co.kr
+
+#push url
+PUSH:
+  URL: http://internal-STG-PUPPYOU-PUSH-ALB-208249258.ap-northeast-2.elb.amazonaws.com
