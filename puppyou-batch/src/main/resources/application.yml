@@ -23,9 +23,8 @@ spring:
             useServerPrepStmts: true
 #           connection-test-query: SELECT 1
 server:
-    port: 3000
+    port: 6000
     servlet:
-        context-path: /ppy
         session:
             timeout: 10m
             cookie:
@@ -44,10 +43,6 @@ logging:
 #rest:
 #    puppyou:
 
-#domain
-domain:
-  uri: http://localhost:8080
-  
 #admin Token
 admin:
   token: 0f63ed073181c8f659ccc294a24fe8abd1620ccc77db308c88af64d69374bd3a  
@@ -81,6 +76,13 @@ logging:
     jdbc: off
     jdbc.sqltiming: error
 
+server:
+    port: 6000
+    servlet:
+        session:
+            timeout: 10m
+            cookie:
+                name: SESSION_PPY
 #resttemplate
 rest:
     puppyou:             
@@ -105,7 +107,7 @@ spring:
     datasource:
         hikari:
            driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-           jdbc-url: jdbc:log4jdbc:mysql://stg-puppyou.cqyxmk2lesk3.ap-northeast-2.rds.amazonaws.com:13306/puppyou?serverTimezone=Asia/Seoul
+           jdbc-url: jdbc:log4jdbc:mysql://prod-mysql-puppyou-app.cqyxmk2lesk3.ap-northeast-2.rds.amazonaws.com:13306/puppyou?serverTimezone=Asia/Seoul
            username: admin
            password: shs1q2w3e4r! 
            maximum-pool-size: 10
@@ -121,11 +123,16 @@ logging:
 
 #resttemplate
 rest:
-    puppyou:    
-#domain
-#domain:
-#  uri: https://puppyou.co.kr
+    puppyou:
+        
+server:
+    port: 6000
+    servlet:
+        session:
+            timeout: 10m
+            cookie:
+                name: SESSION_PPY
 
 #push url
 PUSH:
-  URL: http://internal-STG-PUPPYOU-PUSH-ALB-208249258.ap-northeast-2.elb.amazonaws.com
+  URL: http://internal-PROD-PUPPYOU-PUSH-1417431903.ap-northeast-2.elb.amazonaws.com
