@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.puppyou.batch.mapper.EventListMapper">
+    
+    <select id="getEventPoint"  resultType="int">
+    	SELECT
+    		point
+   		FROM
+    		event_list
+    	WHERE
+    		event_code = #{eventCode}
+    </select>
+    
+    <select id="getEventNo"  resultType="BigInteger">
+    	SELECT
+    		event_no
+   		FROM
+    		event_list
+    	WHERE
+    		event_code = #{eventCode}
+    </select>
+    
+    <select id="getBoneBalance" resultType="int">
+    	SELECT
+    		balance
+   		FROM
+    		bone
+    	WHERE
+    		mem_no = #{memNo}
+    </select>
+    
+    <insert id="insertBalance" parameterType="com.puppyou.batch.entity.BoneHistory"
+        useGeneratedKeys="true" keyColumn="bone_no" keyProperty="boneNo">
+        INSERT INTO bone_history (
+            mem_no,
+            target_no,
+            type,
+            point,
+            balance,
+            create_dt,
+            update_dt
+        ) 
+        VALUES 
+        (
+          #{memNo}
+          ,#{targetNo}
+          ,#{type}
+          ,#{point}
+          ,#{balance}
+          ,#{createDt}
+          ,#{updateDt}
+        )
+    </insert>
+    
+    <update id="updateBalance" >
+        UPDATE bone
+           SET balance = #{balance},
+               update_dt = NOW()
+        WHERE mem_no = #{memNo}
+    </update>
+    
+</mapper>

@@ -23,6 +23,17 @@
     		match_status = 'MATCHING'
     </select>
     
+    <select id="getMatchingCnt"  resultType="int">
+    	SELECT
+    		COUNT(*)
+   		FROM
+    		matching
+    	WHERE
+    		(mem_no = #{memNo} OR dst_mem_no = #{memNo})
+    	AND 
+    		match_status != 'CANCEL'
+    </select>
+    
     <update id="updateEndMatching">
     	UPDATE matching
     	SET
