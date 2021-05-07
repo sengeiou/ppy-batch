@@ -499,6 +499,7 @@ public class CD {
 		INSERT_SCRAP_SUCCESS(200, "S051", "스크랩 등록 성공"),
 		DELETE_SCRAP_SUCCESS(200, "S052", "스크랩 해제 성공"),
 		DELETE_SCRAP_FAILED(200, "S053", "스크랩 해제에 실패했습니다. memNo or scrapNo를 확인해주세요."),
+		UPDATE_SCRAP_SUCCESS(200, "S054", "스크랩이 갱신되었습니다."),
 		
 		INSERT_REPORT_SUCCESS(200, "S061", "신고가 정상적으로 접수됐습니다."),
 		

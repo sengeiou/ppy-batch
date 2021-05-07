@@ -8,9 +8,13 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class AppPushServiceImpl implements AppPushService {
 	
 	@Value("${PUSH.URL}")
@@ -24,9 +28,15 @@ public class AppPushServiceImpl implements AppPushService {
 		Map<String, String> request = new HashMap<String,String>();
 		request.put("memNo", memNo.toString());
 		request.put("type", type);
-		
-		restTemplate.postForObject(pushUrl+"/push/send", request, Map.class);
-		
+		try {
+			restTemplate.postForObject(pushUrl+"/push/send", request, Map.class);
+		}catch (HttpClientErrorException e) {
+			log.info("## push server HttpClientErrorException !! ");
+			e.printStackTrace();
+		}catch (Exception e) {
+			log.info("## push server exception !! ");
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -36,9 +46,15 @@ public class AppPushServiceImpl implements AppPushService {
 		
 		Map<String, String> request = new HashMap<String,String>();
 		request.put("type", type);
-		
-		restTemplate.postForObject(pushUrl+"/push/multi-send", request, Map.class);
-		
+		try {
+			restTemplate.postForObject(pushUrl+"/push/multi-send", request, Map.class);
+		}catch (HttpClientErrorException e) {
+			log.info("## push server HttpClientErrorException !! ");
+			e.printStackTrace();
+		}catch (Exception e) {
+			log.info("## push server exception !! ");
+			e.printStackTrace();
+		}
 	}
 
 }
