@@ -37,7 +37,7 @@
     <update id="updateEndMatching">
     	UPDATE matching
     	SET
-    		match_status = 'END',
+    		match_status = 'CANCEL',
     		update_dt = NOW()
     	WHERE 
     		matching_no = #{matchingNo}

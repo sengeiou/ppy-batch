@@ -36,7 +36,7 @@ public class MatchingServiceImpl implements MatchingService {
 		if(!list.isEmpty()) {
 			list.forEach(p ->{
 				try {
-					//1. 해당 매칭을 종료시킨다. -> end 
+					//1. 해당 매칭을 종료시킨다. -> cancel 
 					matchingMapper.updateEndMatching(p.getMatchingNo());
 					//2. 해당 유저들에 대한 매칭 상태를 변경해준다. -> NO_MATCH
 					matchingMapper.updateMemNoMatching(p.getMemNo());
