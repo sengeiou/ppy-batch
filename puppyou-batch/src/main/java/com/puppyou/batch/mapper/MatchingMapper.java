@@ -11,7 +11,7 @@ public interface MatchingMapper {
 	
 	public List<Matching> getPastMatchingTimeList();
 	public List<Matching> getGoingMatchingList();
-	public int getMatchingCnt(@Param("memNo")BigInteger memNo);
+	public int getMatchingCnt(@Param("memNo")BigInteger memNo, @Param("matchingNo")BigInteger matchingNo);
 	
 	public void updateEndMatching(@Param("matchingNo")BigInteger matchingNo); 
 	

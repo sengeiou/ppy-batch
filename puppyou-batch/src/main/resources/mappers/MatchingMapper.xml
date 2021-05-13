@@ -32,6 +32,8 @@
     		(mem_no = #{memNo} OR dst_mem_no = #{memNo})
     	AND 
     		match_status != 'CANCEL'
+    	AND 
+    		matching_no != #{matchingNo}
     </select>
     
     <update id="updateEndMatching">

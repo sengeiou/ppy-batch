@@ -69,23 +69,23 @@ public class MatchingServiceImpl implements MatchingService {
 					//신청자
 					matchingMapper.updateMemNoMatching(p.getDstMemNo());
 					//수락자
-					int matchingCnt = matchingMapper.getMatchingCnt(p.getMemNo());
-					if(matchingCnt <= 1) {
+					int matchingCnt = matchingMapper.getMatchingCnt(p.getMemNo(), p.getMatchingNo());
+					if(matchingCnt < 0) {
 						int point = eventListMapper.getEventPoint("FIRST_MATCHING");
 						BigInteger targetNo = eventListMapper.getEventNo("FIRST_MATCHING");
 						int balance = eventListMapper.getBoneBalance(p.getMemNo());
 						int plusBalance = balance + point;
-						eventListMapper.insertBalance(BoneHistory.builder().build().reqToEntityBoneHistoryEventInsert(p.getMemNo(), targetNo, "EVENT", point, plusBalance));
+						eventListMapper.insertBalance(BoneHistory.builder().build().reqToEntityBoneHistoryEventInsert(p.getMemNo(), targetNo, "FIRST_MATCHING", point, plusBalance));
 						eventListMapper.updateBalance(p.getMemNo(), plusBalance);
 						appPushService.pushSend(p.getMemNo(), "FIRST_MATCHING");
 					}
-					int dstMatchingCnt = matchingMapper.getMatchingCnt(p.getDstMemNo());
-					if(dstMatchingCnt <= 1) {
+					int dstMatchingCnt = matchingMapper.getMatchingCnt(p.getDstMemNo(), p.getMatchingNo());
+					if(dstMatchingCnt < 1) {
 						int point = eventListMapper.getEventPoint("FIRST_MATCHING");
 						BigInteger targetNo = eventListMapper.getEventNo("FIRST_MATCHING");
 						int balance = eventListMapper.getBoneBalance(p.getDstMemNo());
 						int plusBalance = balance + point;
-						eventListMapper.insertBalance(BoneHistory.builder().build().reqToEntityBoneHistoryEventInsert(p.getDstMemNo(), targetNo, "EVENT", point, plusBalance));
+						eventListMapper.insertBalance(BoneHistory.builder().build().reqToEntityBoneHistoryEventInsert(p.getDstMemNo(), targetNo, "FIRST_MATCHING", point, plusBalance));
 						eventListMapper.updateBalance(p.getDstMemNo(), plusBalance);
 						appPushService.pushSend(p.getDstMemNo(), "FIRST_MATCHING");
 					}
