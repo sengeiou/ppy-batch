@@ -21,7 +21,7 @@ spring:
             prepStmtCacheSize: 250 
             prepStmtCacheSqlLimit: 2048 
             useServerPrepStmts: true
-#           connection-test-query: SELECT 1
+           connection-test-query: SELECT 1
 server:
     port: 6000
     servlet:
@@ -38,7 +38,7 @@ logging:
 #    sql: error
     jdbc: off
     jdbc.sqltiming: info
-
+ 
 #resttemplate
 #rest:
 #    puppyou:
@@ -49,7 +49,7 @@ admin:
   
 #push url
 PUSH:
-  URL: http://localhost:8888
+  URL: http://localhost:8888 
 
 ---
 spring:
@@ -112,7 +112,8 @@ spring:
            password: shs1q2w3e4r! 
            maximum-pool-size: 10
            max-lifetime: 540000 
-#           connection-test-query: SELECT 1
+           leakDetectionThreshold : 535000
+           connection-test-query: SELECT 1 
 #logging
 logging:
   level:

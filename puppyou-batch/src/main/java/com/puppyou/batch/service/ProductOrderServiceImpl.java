@@ -27,6 +27,7 @@ public class ProductOrderServiceImpl implements ProductOrderService {
 				// complate로 변경.
 				try {
 					productOrderMapper.updateComplateOrder(p.getOrderNo());
+					log.info("Change complateProductStatus job order number : {}", p.getOrderNo());
 				} catch (Exception e) {
 					log.info("EXCEPTION Order No : {}", p.getOrderNo());
 					e.printStackTrace();
@@ -34,6 +35,7 @@ public class ProductOrderServiceImpl implements ProductOrderService {
 			});
 		}
 		log.info("Product Order Complate SUCCESS");
+		return;
 	}
 	
 	

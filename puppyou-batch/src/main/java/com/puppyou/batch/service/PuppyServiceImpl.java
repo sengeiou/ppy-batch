@@ -20,5 +20,6 @@ public class PuppyServiceImpl implements PuppyService {
 	public void puppyPlusAge() {
 		puppyMapper.updateAllUsePuppyAge();
 		log.info("New Year Puppy PLUS Age ! SUCCESS");
+		return;
 	}
 }

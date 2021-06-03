@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.puppyou.batch.core.CD.EventType;
 import com.puppyou.batch.entity.BoneHistory;
 import com.puppyou.batch.entity.Matching;
 import com.puppyou.batch.mapper.EventListMapper;
@@ -43,6 +44,7 @@ public class MatchingServiceImpl implements MatchingService {
 					//신청자
 					matchingMapper.updateMemNoMatching(p.getDstMemNo());
 					//수락자
+					log.info("Change matching end job number : {}", p.getMatchingNo());
 				}catch (Exception e) {
 					log.info("EXCEPTION Matching No : {} Member NO : {} DstMember NO : {}"
 											, p.getMatchingNo(),p.getMemNo(), p.getDstMemNo());
@@ -51,6 +53,7 @@ public class MatchingServiceImpl implements MatchingService {
 			});
 		}
 		log.info("Matching END Job Finish");
+		return;
 	}
 
 	@Override
@@ -70,26 +73,27 @@ public class MatchingServiceImpl implements MatchingService {
 					matchingMapper.updateMemNoMatching(p.getDstMemNo());
 					//수락자
 					int matchingCnt = matchingMapper.getMatchingCnt(p.getMemNo(), p.getMatchingNo());
-					if(matchingCnt < 0) {
-						int point = eventListMapper.getEventPoint("FIRST_MATCHING");
-						BigInteger targetNo = eventListMapper.getEventNo("FIRST_MATCHING");
+					if(matchingCnt < 1) {
+						int point = eventListMapper.getEventPoint(EventType.FIRST_MATCHING.toString());
+						BigInteger targetNo = eventListMapper.getEventNo(EventType.FIRST_MATCHING.toString());
 						int balance = eventListMapper.getBoneBalance(p.getMemNo());
 						int plusBalance = balance + point;
 						eventListMapper.insertBalance(BoneHistory.builder().build().reqToEntityBoneHistoryEventInsert(p.getMemNo(), targetNo, "FIRST_MATCHING", point, plusBalance));
 						eventListMapper.updateBalance(p.getMemNo(), plusBalance);
-						appPushService.pushSend(p.getMemNo(), "FIRST_MATCHING");
+						appPushService.pushSend(p.getMemNo(), EventType.FIRST_MATCHING.toString());
 					}
 					int dstMatchingCnt = matchingMapper.getMatchingCnt(p.getDstMemNo(), p.getMatchingNo());
 					if(dstMatchingCnt < 1) {
-						int point = eventListMapper.getEventPoint("FIRST_MATCHING");
-						BigInteger targetNo = eventListMapper.getEventNo("FIRST_MATCHING");
+						int point = eventListMapper.getEventPoint(EventType.FIRST_MATCHING.toString());
+						BigInteger targetNo = eventListMapper.getEventNo(EventType.FIRST_MATCHING.toString());
 						int balance = eventListMapper.getBoneBalance(p.getDstMemNo());
 						int plusBalance = balance + point;
 						eventListMapper.insertBalance(BoneHistory.builder().build().reqToEntityBoneHistoryEventInsert(p.getDstMemNo(), targetNo, "FIRST_MATCHING", point, plusBalance));
 						eventListMapper.updateBalance(p.getDstMemNo(), plusBalance);
-						appPushService.pushSend(p.getDstMemNo(), "FIRST_MATCHING");
+						appPushService.pushSend(p.getDstMemNo(), EventType.FIRST_MATCHING.toString());
 					}
 					
+					log.info("Change matching reset job number : {}", p.getMatchingNo());
 				}catch (Exception e) {
 					log.info("EXCEPTION Matching No : {} Member NO : {} DstMember NO : {}"
 											, p.getMatchingNo(),p.getMemNo(), p.getDstMemNo());
@@ -98,5 +102,6 @@ public class MatchingServiceImpl implements MatchingService {
 			});
 		}
 		log.info("Matching Reset Job Finish");
+		return;
 	}
 }

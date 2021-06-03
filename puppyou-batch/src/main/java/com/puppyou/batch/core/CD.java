@@ -1,11 +1,5 @@
 package com.puppyou.batch.core;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.puppyou.batch.core.util.EnumMapperType;
 
 public class CD {
@@ -220,6 +214,30 @@ public class CD {
 	    }
 	}
 	
+	public enum EventType implements EnumMapperType {
+		FIRST_MATCHING("첫 매칭")
+		;
+		
+		private String label;
+		
+		EventType(String label) { this.label = label; }
+		
+		@Override
+		public String getCode() { return name(); }
+		
+		@Override
+		public String getLabel() { return label; }
+		
+		public static String getBoneType(String code) {
+			for (EventType type : EventType.values()) {
+				if (code.equals(type.getCode())) {
+					return type.getLabel();
+				}
+			}
+			return null;
+		}
+	}
+	
 	public enum ReviewYn {
 		Y, N;
 	}
@@ -318,34 +336,7 @@ public class CD {
     		return null;
     	}
     }
-    
-    public enum ReportReason implements EnumMapperType {
-    	M("명예훼손/사생활 침해 및 저작권침해 등"), 
-    	U("음란성 또는 청소년에게 부적합한 내용"), 
-    	B("부적절한 홍보 게시글"), 
-    	E("기타");
-    	
-    	private String label;
-    	
-    	ReportReason(String label) { this.label = label; }
-    	
-    	@Override
-    	public String getCode() { return name(); }
-    	
-    	@Override
-    	public String getLabel() { return label; }
-    	
-    	public static List<HashMap<String, String>> getReportReason() {
-    		List<HashMap<String, String>> reportReasonList = new ArrayList<HashMap<String, String>>();
-    		for (ReportReason code : ReportReason.values()) {
-    	    	HashMap<String, String> map = new HashMap<String, String>();
-    	    	map.put("code", code.getCode());
-    	    	map.put("label", code.getLabel());
-    	    	reportReasonList.add(map);
-    	    }
-    	    return reportReasonList;
-    	}
-    }
+
     
     public enum VaccinationStatus implements EnumMapperType {
     	N("접종 전"), 
@@ -371,414 +362,8 @@ public class CD {
     		return null;
     	}
     }
-    
-    public enum TermsType implements EnumMapperType {
-    	U("이용약관"), 
-    	P("개인정보처리방침"), 
-    	;
-    	
-    	private String label;
-    	
-    	TermsType(String label) { this.label = label; }
-    	
-    	@Override
-    	public String getCode() { return name(); }
-    	
-    	@Override
-    	public String getLabel() { return label; }
-    	
-    	public static String getTermsType(String code) {
-    		for (TermsType type : TermsType.values()) {
-    			if (code.equals(type.getCode())) {
-    				return type.getLabel();
-    			}
-    		}
-    		return null;
-    	}
-    }
-    
-    public enum ShippingStatus implements EnumMapperType {
-    	READY("준비"), 
-    	REQUEST("배송요청완료"), 
-    	DELIVERY("배송중"), 
-    	COMPLTED("완료")
-    	;
-    	
-    	private String label;
-    	
-    	ShippingStatus(String label) { this.label = label; }
-    	
-    	@Override
-    	public String getCode() { return name(); }
-    	
-    	@Override
-    	public String getLabel() { return label; }
-    	
-    	public static String getShippingStatus(String code) {
-    		for (ShippingStatus shippingStatus : ShippingStatus.values()) {
-    			if (code.equals(shippingStatus.getCode())) {
-    				return shippingStatus.getLabel();
-    			}
-    		}
-    		return null;
-    	}
-    }
-    
-    public enum UseYn{
-    	Y, N;
-    }
-	
-	//세이퍼트 api result status
-	public enum SeyfertAPIStatus {
-		SUCCESS("성공"),
-		FAIL("실패");
-		
-	    final private String name;
-	    private SeyfertAPIStatus(String name) {
-	        this.name = name;
-	    }
-	    public String getName() {
-	        return name;
-	    }
-	}
 
-	//for response
-	@JsonFormat(shape = JsonFormat.Shape.OBJECT)
-	public enum APIReponseCode {
-		ALREADY_JOINED(200, "S000", "이미 가입 된 회원입니다."),
-		NEED_SIGN_UP(200, "S001", "회원가입이 필요합니다."),
-		SIGN_UP_SUCCESS(200, "S002", "회원가입이 정상적으로 처리됐습니다."),
-		GET_MEM_INFO_SUCCESS(200, "S003", "회원 정보 조회 성공"),
-		GET_MEMBER_DETAIL_SUCCESS(200, "S004", "회원 상세 정보 조회 성공"),
-		GET_POST_WRITER_INFO_SUCCESS(200, "S005", "게시글 작성자 정보 조회 성공"),
-		UPDATE_MEM_INFO_SUCCESS(200, "S006", "회원 정보 수정 성공"),
-		UPDATE_MEM_NOTIFICATION_STATUS(200, "S007", "회원 푸시 알림 수정 성공"),
-		UPDATE_MEM_MARKETING_STATUS(200, "S008", "회원 마켓팅 알림 수정 성공"),
-		UPDATE_MEM_MAIN_IMAGE_SUCCESS(200, "S009", "회원 대표 사진 수정 성공"),
-		DELETE_MEM_IMAGE_SUCCESS(200, "S010", "회원 사진 삭제 성공"),
-		
-		ALREADY_REGISTERED(200, "S011", "퍼피가 등록되어있습니다."),
-		NEED_REGISTERED(200, "S012", "퍼피 등록이 필요합니다."),
-		GET_PUPPY_SUCCESS(200, "S013", "퍼피 정보 조회 성공"),
-		GET_RECENTLY_PUPPY_SUCCESS(200, "S013", "최근에 본 퍼피 정보 조회 성공"),
-		GET_INTEREST_PUPPY_SUCCESS(200, "S013", "관심 퍼피 정보 조회 성공"),
-		REGISTRATION_PUPPY_SUCCESS(200, "S014", "퍼피 등록이 정상적으로 처리됐습니다."),
-		UPDATE_PUPPY_INFO_SUCCESS(200, "S015", "퍼피 정보 수정 성공"),
-		UPDATE_MAIN_PUPPY_SUCCESS(200, "S016", "대표 퍼피 수정 완료"),
-		DELETE_PUPPY_INFO_SUCCESS(200, "S017", "퍼피 정보 삭제 성공"),
-		
-		//Matching
-		GET_MATCHING_TARGET_SUCCESS(200, "S021", "매칭 대상 목록 조회 성공"),
-		GET_MATCHED_LIST_SUCCESS(200, "S022", "매칭 목록 조회 성공"),
-		GET_MATCHING_TARGET_COUNT_SUCCESS(200, "S023", "매칭 대상 목록 카운트 조회 성공"),
-		GET_MATCHING_STATUS_SUCCESS(200, "S030", "매칭 상태 조회 성공"),
-		INSERT_MATCHING_INFO_SUCCESS(200, "S024", "매칭 정보 최초 등록 성공"),
-		MATCHING_ALREADY_IN_PROGRESS(200, "S025", "이미 진행 중인 매칭이 있습니다."),
-		UPDATE_MATCHING_INFO_SUCCESS(200, "S026", "매칭 정보 수정 성공"),
-		UPDATE_MATCHING_INFO_FAIL(200, "S027", "매칭 정보 수정은 매칭상태(MatchStatus)가 'GOING'일 때만 가능합니다."),
-		UPDATE_MATCHING_STATUS(200, "S028", "매칭 상태 수정 성공"),
-		MATCHING_SUCCESS(200, "S029", "매칭이 성공됐습니다."),
-		//Matching_review
-		GET_MY_MATCHING_REVIEW_LIST_SUCCESS(200, "S121", "내가 쓴 매칭 리뷰 목록 조회 성공"),
-		INSERT_MATCHING_REVIEW_SUCCESS(200, "S122", "매칭 리뷰 등록 성공"),
-		
-		GET_COMMUNITY_LIST_SUCCESS(200, "S031", "커뮤니티 목록 조회 성공"),
-		GET_POST_LIST_SUCCESS(200, "S032", "게시글 목록 조회 성공"),
-		GET_MY_POST_LIST_SUCCESS(200, "S033", "내가 쓴 게시글 목록 조회 성공"),
-		GET_POST_LIST_COMMENT_BY_ME_SUCCESS(200, "S034", "내가 댓글 단 게시글 목록 조회 성공"),
-		GET_MY_SCRAP_POST_LIST_SUCCESS(200, "S035", "내가 스크랩한 게시글 목록 조회 성공"),
-		INSERT_POST_SUCCESS(200, "S036", "게시글 등록 성공"),
-		UPDATE_POST_SUCCESS(200, "S037", "게시글 수정 성공"),
-		DELETE_POST_SUCCESS(200, "S038", "게시글 삭제 성공"),
-		GET_COMMENT_LIST_SUCCESS(200, "S039", "댓글 목록 조회 성공"),
-		INSERT_COMMENT_SUCCESS(200, "S040", "댓글 등록 성공"),
-		UPDATE_COMMENT_SUCCESS(200, "S041", "댓글 수정 성공"),
-		DELETE_COMMENT_SUCCESS(200, "S042", "댓글 삭제 성공"),
-		UPDATE_SYMPATHY_SUCCESS(200, "S043", "공감 수정 성공"),
-		
-		INSERT_SCRAP_SUCCESS(200, "S051", "스크랩 등록 성공"),
-		DELETE_SCRAP_SUCCESS(200, "S052", "스크랩 해제 성공"),
-		DELETE_SCRAP_FAILED(200, "S053", "스크랩 해제에 실패했습니다. memNo or scrapNo를 확인해주세요."),
-		UPDATE_SCRAP_SUCCESS(200, "S054", "스크랩이 갱신되었습니다."),
-		
-		INSERT_REPORT_SUCCESS(200, "S061", "신고가 정상적으로 접수됐습니다."),
-		
-		GET_CHAT_STATUS_SUCCESS(200, "S071", "채팅 상태 조회 성공"),
-		
-		GET_BLOCK_LIST_SUCCESS(200, "S081", "차단 목록 조회 성공"),
-		INSERT_BLOCK_SUCCESS(200, "S082", "차단 등록 성공"),
-		DELETE_BLOCK_SUCCESS(200, "S083", "차단 해제 성공"),
-		
-		GET_REPORT_REASON_CODE_SUCCESS(200, "S097", "신고 사유 조회 성공"),
-		GET_PUPPY_BREED_SUCCESS(200, "S098", "퍼피 견종 정보 조회 성공"),
-		GET_INTEREST_CODE_SUCCESS(200, "S99", "관심사 코드 조회 성공"),
-		
-		GET_PRODUCT_LIST_SUCCESS(200, "S101", "상품 목록 조회 성공"),
-		GET_PRODUCT_DETAIL_SUCCESS(200, "S102", "상품 상세 및 리뷰 조회 성공"),
-		GET_BONE_BALANCE_SUCCESS(200, "S103", "보유 뼈다귀 조회 성공"),
-		GET_BONE_PRICE_SUCCESS(200, "S104", "뼈다귀 가격 조회 성공"),
-		GET_BONE_CHARGE_HISTORY_SUCCESS(200, "S105", "뼈다귀 충전 내역 조회 성공"),
-		GET_BONE_USE_HISTORY_SUCCESS(200, "S106", "뼈다귀 사용 내역 조회 성공"),
-		GET_PRODUCT_ORDER_LIST_SUCCESS(200, "S107", "상품 주문 목록 조회 성공"),
-		INSERT_PRODUCT_ORDER_SUCCESS(200, "S108", "상품 주문 저장 성공"),
-		GET_MY_PRODUCT_REVIEW_LIST_SUCCESS(200, "S109", "내가 쓴 상품 리뷰 조회 성공"),
-		INSERT_PRODUCT_REVIEW_SUCCESS(200, "S110", "상품 리뷰 저장 성공"),
-		
-		GET_NOTICE_LIST_SUCCESS(200, "S131", "공지사항 목록 조회 성공"),
-		GET_NOTICE_DETIL_SUCCESS(200, "S132", "공지사항 상세 조회 성공"),
-		GET_EVENT_LIST_SUCCESS(200, "S133", "이벤트 목록 조회 성공"),
-		GET_EVENT_DETIL_SUCCESS(200, "S134", "이벤트 상세 조회 성공"),
-		GET_QNA_LIST_SUCCESS(200, "S135", "자주 묻는 질문 목록 조회 성공"),
-
-		GET_USE_TERMS_SUCCESS(200, "S141", "이용약관 조회 성공"),
-		GET_LOCATION_TERMS_SUCCESS(200, "S142", "위치정보 이용약관 조회 성공"),
-		GET_PRIVATE_TERMS_SUCCESS(200, "S143", "개인정보 취급방침 조회 성공"),
-		
-		SERVER_ALIVE(200, "S999", "현재 살아있는 Server의 시간은 = " + LocalDateTime.now());
-
-	    private final String code;
-	    private final String message;
-	    private int status;
-	    
-	    APIReponseCode(final int status, final String code, final String message) {
-	        this.status = status;
-	        this.message = message;
-	        this.code = code;
-	    }
-
-	    public String getMessage() {
-	        return this.message;
-	    }
-
-	    public String getCode() {
-	        return code;
-	    }
-
-	    public int getStatus() {
-	        return status;
-	    }
-	    
-	    public static String getCode(String code) {
-	        for (APIReponseCode responseCode : APIReponseCode.values()) {
-	            if (code.equals(responseCode.code)) {
-	                return responseCode.getMessage();
-	            }
-	        }
-	        return null;
-	    }
-	}
-	
-	
-	@JsonFormat(shape = JsonFormat.Shape.OBJECT)
-	//for XXXException.java
-	public enum ErrorCode {
-
-	    // Common
-		BAD_REQUEST(400, "C000", "잘못된 요청 입니다."),
-	    INVALID_INPUT_VALUE(400, "C001", "입력 값이 잘못 되었습니다."),
-	    METHOD_NOT_ALLOWED(405, "C002", "허용되지 않은 요청 방식 입니다."),
-	    INTERNAL_SERVER_ERROR(500, "C004", "서버에서 발생한 오류입니다. 운영자에게 신고부탁드립니다."),
-	    INVALID_TYPE_VALUE(400, "C005", "잘못된 형식의 갑을 입력하였습니다."),
-	    REQUIRED_PARAMETER_IS_MISSING(400, "C006", "필수 parameter가 없습니다.다시 확인해주세요."),
-	    
-	    // DB
-	    DUPLICATE_KEY_ERROR(400, "D001","중복된 값은 저장 할 수 없습니다."),
-	    
-	    // Member
-	    ACCESS_TOKEN_DOES_NOT_EXIST(400, "M001", "ACCESS TOKEN이 없습니다. 발급 후 다시 시도해주세요."),
-	    ACCESS_TOKEN_EXPIRED(400, "M002", "ACCESS TOKEN이 만료되었습니다. 재발급 후 다시 시도해주세요."),
-		ADDRESS_REQUIRED_HANGJUNGDONG(400, "M003", "회원 가입(수정) 시 주소는 행정동 명으로 입력해야 합니다."),
-		CAN_NOT_DELETE_MAIN_IMAGE(400, "M004", "회원 대표 사진은 삭제 할 수 없습니다."),	    
-		
-		// Community
-		LATITUDE_AND_LONGITUDE_PARAMETER_REQUIRED(400, "T001", "위도, 경도 값은 필수 입니다."),
-		TOP_COMMUNITY_DO_NOT_INSERT(400, "T002", "인기글 커뮤니티에는 게시글을 등록 할 수 없습니다."),
-		NORMAL_COMMUNITY_DO_NOT_INSERT_COORDINATE(400, "T003", "일반 커뮤니티에는 좌표(위도,경도)를 등록 할 수 없습니다."),
-		ONLY_MY_WRITING_CAN_BE_MODIFIED(400, "T003", "내가 작성한 글만 수정이 가능합니다."),
-		ONLY_MY_WRITING_CAN_BE_DELETED(400, "T004", "내가 작성한 글만 삭제가 가능합니다."),
-		
-		// Product
-		OUT_OF_STUCK(400, "P001", "상품 재고가 부족합니다."),
-		INSUFFICIENT_BALANCE(400, "P002", "잔액이 부족합니다."),
-		UP_TO_5_PRODUCT_REVIEW_IMAGES_CAN_BE_UPLOADED(400, "P003", "상품 리뷰 이미지는 최대 5개까지 업로드 가능합니다."),
-		PRODUCT_REVIEW_HAS_ALREADY_REGISTERED(400, "P004", "이미 상품 리뷰를 등록했습니다."),
-		;		
-	    
-		private final String code;
-	    private final String message;
-	    private int status;
-
-	    ErrorCode(final int status, final String code, final String message) {
-	        this.status = status;
-	        this.message = message;
-	        this.code = code;
-	    }
-
-	    public String getMessage() {
-	        return this.message;
-	    }
-
-	    public String getCode() {
-	        return code;
-	    }
-
-	    public int getStatus() {
-	        return status;
-	    }
-	}
-	
-    public enum MemberRole implements EnumMapperType {
-		
-		ROLE_USER("사용자"),
-		ROLE_CORP("법인"),
-		ROLE_OPERATOR("운영자"),
-		ROLE_ADMIN("관리자")
-		;
-
-		private String label;
-		
-		MemberRole(String label) { this.label = label; }
-		
-		@Override
-		public String getCode() { return name(); }
-
-		@Override
-		public String getLabel() { return label; }
-		
-	    public static String getMemberRole(String code) {
-	        for (MemberRole gubun : MemberRole.values()) {
-	            if (code.equals(gubun.getCode())) {
-	                return gubun.getLabel();
-	            }
-	        }
-	        return null;
-	    }
-	}
-    
-    public enum InterestCode {
-		PUPPY_TRAINING("애견훈련","P"),
-		FEED_NUTRITION("사료영양","P"),
-		TOY("장난감","P"),
-		EXERCISE("운동","P"),
-		CAMPING("캠핑","P"),
-		HIKING("등산","P"),
-		WALK("산책","P"),
-		AGILITY("어질리티","P"),
-		WORRY_COUNSELING("고민상담","P"),
-		CHATTER("수다","P"),
-		PHOTO("사진","P"),
-		FASHION("패션","P"),
-		PUPPY_SHOP("애견샵","N"),
-		HOSPITAL("병원","N"),
-		PUPPY_GOODS("용품","N"),
-		BEAUTY_SALON("미용실","N"),
-		STUDIO("스튜디오","N"),
-		PUPPY_CAFE("애견카페","N"),
-		RESTAURANT("음식점","N"),
-		SWIMMING_POOL("수영장","N"),
-		HOTELING("호텔링","N"),
-		PENSION("팬션","N"),		
-		TRAINING_CENTER("훈련소","N"),
-		KINDERGARTEN("유치원","N"),
-		PLAYGROUND("놀이터","N"),
-		PRIVATE_PARK("공원","N"),
-		LODGE("숙박","N"),
-		GROUND("운동장","N")
-		;
-
-		private String label;
-		private String type;
-
-		InterestCode(String label, String type) { 
-			this.label = label;
-			this.type = type;
-		}
-		
-		public String getCode() { return name(); }
-		public String getLabel() { return label; }
-		public String getType() { return type; }
-		
-	    public static List<HashMap<String, String>> getInterestCodeInfo() {
-	    	List<HashMap<String, String>> interestList = new ArrayList<HashMap<String, String>>();
-	        for (InterestCode code : InterestCode.values()) {
-            	HashMap<String, String> map = new HashMap<String, String>();
-            	map.put("code", code.getCode());
-            	map.put("label", code.getLabel());
-            	map.put("type", code.getType());
-            	interestList.add(map);
-	        }
-	        return interestList;
-	    }
-	    
-	    public static String getInterestLabel(String code) {
-	        for (InterestCode intCode : InterestCode.values()) {
-	            if (code.equals(intCode.getCode())) {
-	                return intCode.getLabel();
-	            }
-	        }
-	        return null;
-	    }
-	}
-    
-    public enum MapLevel implements EnumMapperType {
-		LV1("100"),
-		LV2("200"),
-		LV3("400"),
-		LV4("800"),
-		LV5("1600"),
-		LV6("3200"),
-		LV7("6400"),
-		LV8("12800"),
-		LV9("25600"),
-		;
-
-		private String label;
-		
-		MapLevel(String label) { this.label = label; }
-		
-		@Override
-		public String getCode() { return name(); }
-
-		@Override
-		public String getLabel() { return label; }
-		
-	    public static String getMapLevel(String code) {
-	        for (MapLevel level : MapLevel.values()) {
-	            if (code.equals(level.getCode())) {
-	                return level.getLabel();
-	            }
-	        }
-	        return null;
-	    }
-	}
-    
-    public enum RadiusLevel implements EnumMapperType {
-    	LV1("1000"),
-    	LV2("3000"),
-    	LV3("5000"),
-    	LV4("7000"),
-    	;
-    	
-    	private String label;
-    	
-    	RadiusLevel(String label) { this.label = label; }
-    	
-    	@Override
-    	public String getCode() { return name(); }
-    	
-    	@Override
-    	public String getLabel() { return label; }
-    	
-    	public static String getRadiusLevel(String code) {
-    		for (RadiusLevel level : RadiusLevel.values()) {
-    			if (code.equals(level.getCode())) {
-    				return level.getLabel();
-    			}
-    		}
-    		return null;
-    	}
-    }
-    
+   
     public enum BreedType implements EnumMapperType {
 		D001("가스코뉴 생통주아"),
 		D002("고든 세터"),

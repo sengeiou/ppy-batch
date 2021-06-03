@@ -36,7 +36,11 @@ public class AppPushServiceImpl implements AppPushService {
 		}catch (Exception e) {
 			log.info("## push server exception !! ");
 			e.printStackTrace();
+		}finally {
+			restTemplate = null;
+			request = null;
 		}
+		return;
 	}
 
 	@Override
@@ -54,7 +58,11 @@ public class AppPushServiceImpl implements AppPushService {
 		}catch (Exception e) {
 			log.info("## push server exception !! ");
 			e.printStackTrace();
+		}finally {
+			restTemplate = null;
+			request = null;
 		}
+		return;
 	}
 
 }
