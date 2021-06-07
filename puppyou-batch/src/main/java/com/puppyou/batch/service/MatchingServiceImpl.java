@@ -72,8 +72,8 @@ public class MatchingServiceImpl implements MatchingService {
 					//신청자
 					matchingMapper.updateMemNoMatching(p.getDstMemNo());
 					//수락자
-					int matchingCnt = matchingMapper.getMatchingCnt(p.getMemNo(), p.getMatchingNo());
-					if(matchingCnt < 1) {
+					int firstMatchStatus = eventListMapper.getFirstMatchStatus(p.getMemNo());
+					if(firstMatchStatus < 1) {
 						int point = eventListMapper.getEventPoint(EventType.FIRST_MATCHING.toString());
 						BigInteger targetNo = eventListMapper.getEventNo(EventType.FIRST_MATCHING.toString());
 						int balance = eventListMapper.getBoneBalance(p.getMemNo());
@@ -82,8 +82,8 @@ public class MatchingServiceImpl implements MatchingService {
 						eventListMapper.updateBalance(p.getMemNo(), plusBalance);
 						appPushService.pushSend(p.getMemNo(), EventType.FIRST_MATCHING.toString());
 					}
-					int dstMatchingCnt = matchingMapper.getMatchingCnt(p.getDstMemNo(), p.getMatchingNo());
-					if(dstMatchingCnt < 1) {
+					int dstFirstMatchStatus = eventListMapper.getFirstMatchStatus(p.getDstMemNo());
+					if(dstFirstMatchStatus < 1) {
 						int point = eventListMapper.getEventPoint(EventType.FIRST_MATCHING.toString());
 						BigInteger targetNo = eventListMapper.getEventNo(EventType.FIRST_MATCHING.toString());
 						int balance = eventListMapper.getBoneBalance(p.getDstMemNo());

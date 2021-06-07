@@ -26,5 +26,14 @@ public class MatchingJob {
 		log.info("Reset Matching END Job Start");
 		matchingService.resetMatchingJob();
 	}
+	
+	@Scheduled(fixedRate = 3000000) //50분에 한번씩 gc 호출 테스트
+    public void gcScheduled() {
+		log.info("memory reset");
+		log.info("Runtime : {} , {} ", Runtime.getRuntime().totalMemory(), Runtime.getRuntime().maxMemory());
+		System.gc();
+		log.info("After Runtime : {} , {} ", Runtime.getRuntime().totalMemory(), Runtime.getRuntime().maxMemory());
+		
+	}
 
 }

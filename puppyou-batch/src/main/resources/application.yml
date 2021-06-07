@@ -13,7 +13,7 @@ spring:
     datasource:
         hikari:
            driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-           jdbc-url: jdbc:log4jdbc:mysql://stg-puppyou-app.cqyxmk2lesk3.ap-northeast-2.rds.amazonaws.com:13306/puppyou?serverTimezone=Asia/Seoul           username: admin
+           jdbc-url: jdbc:log4jdbc:mysql://stg-puppyou-app.cqyxmk2lesk3.ap-northeast-2.rds.amazonaws.com:13306/puppyou?serverTimezone=Asia/Seoul&sslMode=DISABLED           username: admin
            password: shs1q2w3e4r! 
            maximum-pool-size: 10
            data-source-properties: 
@@ -107,7 +107,7 @@ spring:
     datasource:
         hikari:
            driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-           jdbc-url: jdbc:log4jdbc:mysql://prod-mysql-puppyou-app.cqyxmk2lesk3.ap-northeast-2.rds.amazonaws.com:13306/puppyou?serverTimezone=Asia/Seoul
+           jdbc-url: jdbc:log4jdbc:mysql://prod-mysql-puppyou-app.cqyxmk2lesk3.ap-northeast-2.rds.amazonaws.com:13306/puppyou?serverTimezone=Asia/Seoul&sslMode=DISABLED
            username: admin
            password: shs1q2w3e4r! 
            maximum-pool-size: 10
